@@ -64,7 +64,7 @@ public class RestExceptionHandler implements WebExceptionHandler {
             return handleErrors(exchange, errors);
         } else if (ex instanceof BadCredentialsException) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-            var errors = new Errors("bad_credential", "Bad credentials.");
+            var errors = new Errors("bad_credential", "Bad credentials");
             errors.add(exchange.getRequest().getPath().toString(), HttpStatus.UNAUTHORIZED.name(), "Invalid username or password");
             return handleErrors(exchange, errors);
         }

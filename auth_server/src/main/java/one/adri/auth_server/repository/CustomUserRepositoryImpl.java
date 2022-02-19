@@ -43,6 +43,6 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                     user.set(u);
                 });
 
-        return Mono.just(user.get());
+        return Mono.justOrEmpty(user.get());
     }
 }
