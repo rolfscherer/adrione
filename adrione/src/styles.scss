@@ -1,0 +1,17 @@
+@import 'app/theme/styles/base';
+@import 'app/theme/styles/theme';
+@import 'material-icons/iconfont/material-icons.scss';
+
+.tooltip {
+  background-color: dimgrey;
+  color: white;
+  font-size: 16px;
+}
+
+.panel-class-info {
+  background-color: cadetblue;
+}
+
+.filler {
+  flex: 1 1 auto;
+}

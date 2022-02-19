@@ -1,0 +1,89 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav
+        #drawer
+        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(layoutService.sidenavIsPinned) ? 'side' : 'over'"
+        [opened]="(isHandset$ | async) === false && layoutService.sidenavIsPinned"
+        class="sidenav mat-elevation-z6"
+        fixedInViewport
+    >
+        <mat-toolbar color="primary" [fxLayoutAlign]="'space-between center'">
+            <a mat-raised-button color="accent" routerLink="/" class="small-logo">A</a>
+            <a class="logo" routerLink="/">adriOne</a>
+            <svg class="pin" (click)="layoutService.sidenavIsPinned = !layoutService.sidenavIsPinned">
+                <path *ngIf="!layoutService.sidenavIsPinned"
+                      d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z"/>
+                <path *ngIf="layoutService.sidenavIsPinned"
+                      d="M2,5.27L3.28,4L20,20.72L18.73,22L12.8,16.07V22H11.2V16H6V14L8,12V11.27L2,5.27M16,12L18,14V16H17.82L8,6.18V4H7V2H17V4H16V12Z"/>
+            </svg>
+        </mat-toolbar>
+
+        <div id="vertical-menu">
+            <mat-nav-list>
+                <div class="menu-item">
+                    <a [routerLink]="'home'" mat-button fxLayout="row"
+                       routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                        <span class="mat-button-wrapper">
+                            <mat-icon class="menu-icon">home</mat-icon>
+                            <span class="menu-title">Home</span>
+                        </span>
+                    </a>
+                </div>
+
+                <a href="#" mat-list-item>Link 2</a>
+                <a href="#" mat-list-item>Link 3</a>
+            </mat-nav-list>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button
+                    (click)="drawer.toggle()"
+                    aria-label="Toggle sidenav"
+                    mat-icon-button
+                    type="button"
+            >
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+
+            <div class="filler"></div>
+
+            <button mat-icon-button aria-label="Test Alert" (click)="show()">
+                <mat-icon>add_alert</mat-icon>
+            </button>
+
+            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button aria-label="Profile"
+                    matTooltip="Profile" matTooltipClass="tooltip" matTooltipPosition="below">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+
+            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button aria-label="Settings"
+                    matTooltip="Settings" matTooltipClass="tooltip" matTooltipPosition="below">
+                <mat-icon>settings</mat-icon>
+            </button>
+
+            <button *ngIf="!layoutService.isDarkMode()" (click)="layoutService.setDarkMode()"
+                    mat-icon-button matTooltip="Activate dark mode" matTooltipClass="tooltip" matTooltipPosition="below"
+                    aria-label="Dark mode">
+                <mat-icon>dark_mode</mat-icon>
+            </button>
+            <button *ngIf="layoutService.isDarkMode()" (click)="layoutService.setLightMode()"
+                    mat-icon-button matTooltip="Activate light mode" matTooltipClass="tooltip"
+                    matTooltipPosition="below" aria-label="Light mode">
+                <mat-icon>light_mode</mat-icon>
+            </button>
+
+            <button *ngIf="(layoutService.$loggedIn | async) === false" mat-icon-button matTooltip="Login button"
+                    matTooltipClass="tooltip" matTooltipPosition="below"
+                    routerLink="/auth/login" aria-label="Login button">
+                <mat-icon>login</mat-icon>
+            </button>
+            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button matTooltip="Logout"
+                    matTooltipClass="tooltip" matTooltipPosition="below" aria-label="Logout button">
+                <mat-icon>logout</mat-icon>
+            </button>
+        </mat-toolbar>
+        <adri-alert></adri-alert>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

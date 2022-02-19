@@ -1,0 +1,30 @@
+.full-width {
+  width: 100%;
+}
+
+.login-card {
+  min-width: 120px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.login-page-bg {
+  background-image: url('../../../assets/img/blue-doorway.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+}

@@ -1,0 +1,85 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Skins
+
+// Green-Dark
+$green-dark-primary: mat.define-palette(mat.$green-palette, 700, 300, 900);
+$green-dark-accent: mat.define-palette(mat.$amber-palette, A200, A100, A700);
+$green-dark-warn: mat.define-palette(mat.$red-palette, A200);
+
+$green-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $green-dark-primary,
+      accent: $green-dark-accent,
+      warn: $green-dark-warn
+    )
+  )
+);
+
+// Blue-Dark
+$blue-dark-primary: mat.define-palette(mat.$light-blue-palette, 800, 300, 900);
+$blue-dark-accent: mat.define-palette(mat.$amber-palette, A200, A100, A700);
+$blue-dark-warn: mat.define-palette(mat.$red-palette, A200);
+
+$blue-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $blue-dark-primary,
+      accent: $blue-dark-accent,
+      warn: $blue-dark-warn
+    )
+  )
+);
+
+// Indigo-light
+$indigo-light-primary: mat.define-palette(mat.$indigo-palette, 800, 300, 900);
+$indigo-light-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$indigo-light-warn: mat.define-palette(mat.$red-palette, 500);
+
+$indigo-light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $indigo-light-primary,
+      accent: $indigo-light-accent,
+      warn: $indigo-light-warn
+    )
+  )
+);
+
+// Teal-light
+$teal-light-primary: mat.define-palette(mat.$teal-palette, 800, 300, 900);
+$teal-light-accent: mat.define-palette(mat.$amber-palette, A200, A100, A700);
+$teal-light-warn: mat.define-palette(mat.$red-palette, A200);
+
+$teal-light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $teal-light-primary,
+      accent: $teal-light-accent,
+      warn: $teal-light-warn
+    )
+  )
+);
+
+@import 'theme-reset';
+.app {
+  &.indigo-light {
+    @include mat.all-component-colors($indigo-light-theme);
+    @include theme-reset($indigo-light-theme);
+  }
+  &.teal-light {
+    @include mat.all-component-colors($teal-light-theme);
+    @include theme-reset($teal-light-theme);
+  }
+  &.blue-dark {
+    @include mat.all-component-colors($blue-dark-theme);
+    @include theme-reset($blue-dark-theme);
+  }
+  &.green-dark {
+    @include mat.all-component-colors($green-dark-theme);
+    @include theme-reset($green-dark-theme);
+  }
+}

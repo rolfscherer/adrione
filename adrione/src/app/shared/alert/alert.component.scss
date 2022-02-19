@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+.alert-container {
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.alert {
+  border: 4px solid;
+  border-radius: 8px;
+  padding: 15px;
+  width: 50%;
+  min-width: 260px;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.alert-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.alert-info {
+  border-color: mat.get-color-from-palette(mat.$teal-palette, 400);
+  color: mat.get-color-from-palette(mat.$teal-palette, 900);
+  background-color: mat.get-color-from-palette(mat.$teal-palette, 100);
+}
+
+.alert-success {
+  border-color: mat.get-color-from-palette(mat.$light-green-palette, 100);
+  color: mat.get-color-from-palette(mat.$light-green-palette, 50);
+  background-color: mat.get-color-from-palette(mat.$light-green-palette, 900);
+}
+
+.alert-danger {
+  border-color: mat.get-color-from-palette(mat.$red-palette, 100);
+  color: mat.get-color-from-palette(mat.$red-palette, 50);
+  background-color: mat.get-color-from-palette(mat.$red-palette, 900);
+}
+
+.alert-warning {
+  border-color: mat.get-color-from-palette(mat.$yellow-palette, 100);
+  color: mat.get-color-from-palette(mat.$yellow-palette, 50);
+  background-color: mat.get-color-from-palette(mat.$yellow-palette, 900);
+}
