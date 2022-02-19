@@ -51,7 +51,8 @@
             "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
             "allowSeparatedGroups": false
           }
-        ]
+        ],
+        "@typescript-eslint/explicit-function-return-type": ["error"]
       }
     },
     {

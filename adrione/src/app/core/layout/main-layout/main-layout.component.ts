@@ -1,12 +1,12 @@
+import { Alert, AlertType } from '../../../shared/alert/alert.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable, filter, withLatestFrom } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { AlertService } from '../../../shared/alert/alert.service';
 import { LayoutService } from '../../services/layout.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Alert, AlertType } from '../../../shared/alert/alert.model';
-import { AlertService } from '../../../shared/alert/alert.service';
 
 @Component({
   selector: 'adri-main-layout',

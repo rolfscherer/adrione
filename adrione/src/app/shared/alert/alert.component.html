@@ -1,13 +1,16 @@
 <div class="alert-container">
     <div @inOut *ngFor="let alert of alerts$ | async" [class]="cssClasses(alert)">
         <div class="alert-title">
-            <div class="mat-h2">{{alert.title}}</div>
+            <div style="padding-top: 4px" class="mat-h2">{{alert.title}}</div>
             <button mat-icon-button (click)="removeAlert(alert)">
                 <mat-icon>close</mat-icon>
             </button>
         </div>
         <div>
             {{alert.message}}
+        </div>
+        <div *ngIf="alert.path">
+            Path: {{alert.path}}. Code: {{alert.code}}
         </div>
     </div>
 </div>

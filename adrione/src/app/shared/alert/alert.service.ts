@@ -1,6 +1,7 @@
 import { Alert, AlertType } from './alert.model';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { ServerError } from '../model/server-error-message';
 
 @Injectable({ providedIn: 'root' })
 export class AlertService {
@@ -17,20 +18,44 @@ export class AlertService {
   }
 
   // convenience methods
-  success(message: string, options?: any) {
+  success(message: string, options?: any): void {
     this.alert(new Alert({ ...options, type: AlertType.Success, message }));
   }
 
-  error(message: string, options?: any) {
-    this.alert(new Alert({ ...options, type: AlertType.Error, message }));
-  }
-
-  info(message: string, options?: any) {
+  info(message: string, options?: any): void {
     this.alert(new Alert({ ...options, type: AlertType.Info, message }));
   }
 
-  warn(message: string, options?: any) {
+  warn(message: string, options?: any): void {
     this.alert(new Alert({ ...options, type: AlertType.Warning, message }));
+  }
+
+  error(message: ServerError, options?: any): void {
+    if (message.errors) {
+      this.alert(
+        new Alert({
+          ...options,
+          type: AlertType.Error,
+          title: message.message,
+          message: message.errors[0].message,
+          code: message.errors[0].code,
+          path: message.errors[0].path,
+          autoClose: false,
+          fade: false
+        })
+      );
+    } else {
+      this.alert(
+        new Alert({
+          ...options,
+          type: AlertType.Error,
+          title: 'Error',
+          message: message,
+          autoClose: false,
+          fade: false
+        })
+      );
+    }
   }
 
   alert(alert: Alert): void {

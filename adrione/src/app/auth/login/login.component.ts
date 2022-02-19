@@ -28,8 +28,7 @@ export class LoginComponent {
     this.isSubmitting = true;
 
     this.authService.login(request).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: () => {
         this.isSubmitting = false;
         this.router.navigateByUrl('/').then();
       },

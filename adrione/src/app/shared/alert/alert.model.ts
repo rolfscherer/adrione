@@ -3,6 +3,8 @@ export interface AlertConfig {
   type: AlertType;
   title: string;
   message: string;
+  code: string | undefined;
+  path: string | undefined;
   autoClose: boolean;
   autoCloseTimeout: number;
   keepAfterRouteChange: boolean;
@@ -15,6 +17,8 @@ export class Alert implements AlertConfig {
   type: AlertType = AlertType.Info;
   title: string = '';
   message: string = '';
+  code: string | undefined;
+  path: string | undefined;
   autoClose: boolean = true;
   autoCloseTimeout: number = 3000;
   keepAfterRouteChange: boolean = false;

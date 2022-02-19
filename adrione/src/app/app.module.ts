@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { httpInterceptorProviders } from './intercepter';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,7 +16,7 @@ import { NgModule } from '@angular/core';
     CoreModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
