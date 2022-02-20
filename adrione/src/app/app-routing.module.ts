@@ -11,9 +11,14 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       {
-        path: 'auth',
+        path: 'login',
         loadChildren: () =>
-          import('./auth/auth.module').then((m) => m.AuthModule)
+          import('./login/login.module').then((m) => m.LoginModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () =>
+          import('./admin/admin.module').then((m) => m.AdminModule)
       }
     ]
   },

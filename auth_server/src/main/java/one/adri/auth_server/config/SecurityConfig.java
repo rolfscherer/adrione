@@ -32,8 +32,8 @@ public class SecurityConfig {
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http,
                                                 JwtTokenProvider tokenProvider,
                                                 ReactiveAuthenticationManager reactiveAuthenticationManager) {
-        final String PATH_PUBLIC = "/api/public/**";
-        final String PATH_LOGIN = "/api/auth/login";
+        final String PATH_PUBLIC = "/api/v1/public/**";
+        final String PATH_LOGIN = "/api/v1/auth/login";
 
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)

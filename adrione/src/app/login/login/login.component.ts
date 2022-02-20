@@ -1,6 +1,6 @@
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { AuthenticationRequest } from '../model/auth';
+import { AuthService } from '../../core/auth/services/auth.service';
+import { AuthenticationRequest } from '../../core/auth/model/auth';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 

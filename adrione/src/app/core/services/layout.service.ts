@@ -1,25 +1,15 @@
-import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutService {
-  private _$loggedIn = of(false);
   private darkMode = true;
   private _sidenavIsPinned = true;
   private _name = 'adriOne';
   private _theme = 'green-dark'; // indigo-light, teal-light, blue-dark, green-dark
 
   constructor() {}
-
-  get $loggedIn(): Observable<boolean> {
-    return this._$loggedIn;
-  }
-
-  set $loggedIn(value: Observable<boolean>) {
-    this._$loggedIn = value;
-  }
 
   get sidenavIsPinned(): boolean {
     return this._sidenavIsPinned;

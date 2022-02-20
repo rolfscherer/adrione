@@ -48,16 +48,12 @@
 
             <div class="filler"></div>
 
-            <button mat-icon-button aria-label="Test Alert" (click)="show()">
-                <mat-icon>add_alert</mat-icon>
-            </button>
-
-            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button aria-label="Profile"
+            <button *ngIf="authGuard.isLoggedIn$ | async" mat-icon-button aria-label="Profile"
                     matTooltip="Profile" matTooltipClass="tooltip" matTooltipPosition="below">
                 <mat-icon>account_circle</mat-icon>
             </button>
 
-            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button aria-label="Settings"
+            <button *ngIf="authGuard.isLoggedIn$ | async" mat-icon-button aria-label="Settings"
                     matTooltip="Settings" matTooltipClass="tooltip" matTooltipPosition="below">
                 <mat-icon>settings</mat-icon>
             </button>
@@ -73,12 +69,12 @@
                 <mat-icon>light_mode</mat-icon>
             </button>
 
-            <button *ngIf="(layoutService.$loggedIn | async) === false" mat-icon-button matTooltip="Login button"
+            <button *ngIf="(authGuard.isLoggedIn$ | async) === false" mat-icon-button matTooltip="Login button"
                     matTooltipClass="tooltip" matTooltipPosition="below"
-                    routerLink="/auth/login" aria-label="Login button">
+                    routerLink="/login" aria-label="Login button">
                 <mat-icon>login</mat-icon>
             </button>
-            <button *ngIf="layoutService.$loggedIn | async" mat-icon-button matTooltip="Logout"
+            <button *ngIf="authGuard.isLoggedIn$ | async" mat-icon-button matTooltip="Logout" (click)="logout()"
                     matTooltipClass="tooltip" matTooltipPosition="below" aria-label="Logout button">
                 <mat-icon>logout</mat-icon>
             </button>

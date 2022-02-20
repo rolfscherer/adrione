@@ -1,5 +1,5 @@
-import { AuthRoutingModule } from './auth-routing.module';
 import { CommonModule } from '@angular/common';
+import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login/login.component';
 import { MaterialFormModule } from '../material/material-form.module';
 import { MaterialMinModule } from '../material/material-min.module';
@@ -9,9 +9,9 @@ import { NgModule } from '@angular/core';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    AuthRoutingModule,
+    LoginRoutingModule,
     MaterialMinModule,
     MaterialFormModule
   ]
 })
-export class AuthModule {}
+export class LoginModule {}
