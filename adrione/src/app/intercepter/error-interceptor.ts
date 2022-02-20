@@ -11,12 +11,14 @@ import { AuthService } from '../core/auth/services/auth.service';
 import { Injectable } from '@angular/core';
 import { ServerError } from '../shared/model/server-error-message';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private alertService: AlertService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   intercept(
@@ -34,7 +36,11 @@ export class ErrorInterceptor implements HttpInterceptor {
           errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
 
           if (error.status === 401) {
-            this.authService.logoff();
+            if (this.router.url != '/login') {
+              this.authService.logoff('/login', this.router.url);
+            } else {
+              this.authService.logoff('/login', null);
+            }
           }
 
           if (error.error) {

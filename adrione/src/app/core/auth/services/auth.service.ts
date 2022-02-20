@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'api/v1/auth/login';
   private authToken = 'authenticationToken';
+  private requestedUrl: string | null = null;
 
   constructor(
     private httpClient: HttpClient,
@@ -26,6 +27,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           this.authGuard.setLoggedIn(
+            request.username,
             true,
             this.jwtHelper.getRoles(response.token)
           );
@@ -34,6 +36,10 @@ export class AuthService {
             localStorage.setItem(this.authToken, response.token);
           } else {
             sessionStorage.setItem(this.authToken, response.token);
+          }
+
+          if (this.requestedUrl != null) {
+            this.router.navigate([this.requestedUrl]).then();
           }
         })
       );
@@ -46,10 +52,11 @@ export class AuthService {
     );
   }
 
-  logoff(): void {
+  logoff(redirect: string = '/', requestedUrl: string | null = null): void {
+    this.requestedUrl = requestedUrl;
     localStorage.removeItem(this.authToken);
     sessionStorage.removeItem(this.authToken);
-    this.authGuard.setLoggedIn(false, []);
-    this.router.navigate(['/']).then();
+    this.authGuard.setLoggedIn(null, false, []);
+    this.router.navigate([redirect]).then();
   }
 }

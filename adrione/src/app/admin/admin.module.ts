@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { MaterialFormModule } from '../material/material-form.module';
-import { MaterialMinModule } from '../material/material-min.module';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { CommonModule } from '@angular/common';
+import { AdminRoutingModule } from './admin-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, SharedModule, MaterialMinModule, MaterialFormModule]
+  imports: [CommonModule, AdminRoutingModule]
 })
 export class AdminModule {}

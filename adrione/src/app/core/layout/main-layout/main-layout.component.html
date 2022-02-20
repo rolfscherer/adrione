@@ -49,7 +49,8 @@
             <div class="filler"></div>
 
             <button *ngIf="authGuard.isLoggedIn$ | async" mat-icon-button aria-label="Profile"
-                    matTooltip="Profile" matTooltipClass="tooltip" matTooltipPosition="below">
+                    matTooltip="Profile" matTooltipClass="tooltip" matTooltipPosition="below"
+                    routerLink="/account/profile">
                 <mat-icon>account_circle</mat-icon>
             </button>
 

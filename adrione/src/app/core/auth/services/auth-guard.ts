@@ -38,8 +38,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     this.logoffHandler.forEach((h) => h.onLogoff());
   }
 
-  setLoggedIn(loggedIn: boolean, roles: string[]): void {
+  setLoggedIn(
+    username: string | null,
+    loggedIn: boolean,
+    roles: string[]
+  ): void {
     let sessionStatus = this.sessionStatus$.getValue();
+    sessionStatus.username = username;
     sessionStatus.loggedIn = loggedIn;
     sessionStatus.roles = [...roles];
     if (!loggedIn) {
