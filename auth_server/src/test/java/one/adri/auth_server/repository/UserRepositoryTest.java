@@ -1,6 +1,7 @@
 package one.adri.auth_server.repository;
 
 import one.adri.auth_server.domain.User;
+import one.adri.auth_server.model.Profile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ class UserRepositoryTest {
 
         AtomicReference<User> user = new AtomicReference<>();
         CountDownLatch latch = new CountDownLatch(1);
-        userRepository.findByUsername(USERNAME).subscribe(user::set);
+        userRepository.findByUsername(USERNAME).doOnTerminate(latch::countDown).subscribe(user::set);
         latch.await(1000, TimeUnit.MILLISECONDS);
         assertThat(user.get().getUsername()).isEqualTo(USERNAME);
 
@@ -62,4 +63,17 @@ class UserRepositoryTest {
                         }
                 );
     }
+
+    @Test
+    void findProfileByUsername() throws InterruptedException {
+        final String USERNAME = "admin";
+
+        AtomicReference<Profile> profile = new AtomicReference<>();
+        CountDownLatch latch = new CountDownLatch(1);
+        userRepository.findProfileByUsername(USERNAME).doOnTerminate(latch::countDown).subscribe(profile::set);
+        latch.await(1000, TimeUnit.MILLISECONDS);
+        assertThat(profile.get().getUsername()).isEqualTo(USERNAME);
+
+    }
+
 }

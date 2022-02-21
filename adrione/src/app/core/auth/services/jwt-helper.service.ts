@@ -63,7 +63,7 @@ export class JwtHelperService {
     return date;
   }
 
-  public isTokenExpired(token: string, offsetSeconds?: number): boolean {
+  public isTokenExpired(token: string | null, offsetSeconds?: number): boolean {
     if (!token || token === '') {
       return true;
     }

@@ -1,10 +1,35 @@
-<div>
-
-    <mat-card *ngIf="profile$ | async as profile">
-        <mat-card-header>
-            <mat-card-title>Profile</mat-card-title>
-            <mat-card-subtitle>{{profile.username}}</mat-card-subtitle>
+<div class="page-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
+    <mat-card>
+        <mat-card-header class="bg-primary">
+            <mat-card-title style="width: 100%">Profile</mat-card-title>
         </mat-card-header>
-    </mat-card>
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="w50">
+                        <input formControlName="username" matInput placeholder="Username">
+                    </mat-form-field>
+                    <mat-form-field class="w50">
+                        <input formControlName="alias" matInput placeholder="Alias">
+                    </mat-form-field>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="w50">
+                        <input formControlName="firstname" matInput placeholder="First name">
+                    </mat-form-field>
+                    <mat-form-field class="w50">
+                        <input formControlName="lastname" matInput placeholder="Last name">
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+
+        </mat-card-actions>
+    </mat-card>
+    </form>
 </div>

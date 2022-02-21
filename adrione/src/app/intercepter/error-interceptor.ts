@@ -41,11 +41,19 @@ export class ErrorInterceptor implements HttpInterceptor {
             } else {
               this.authService.logoff('/login', null);
             }
-          }
 
-          if (error.error) {
-            const msg = error.error as ServerError;
+            let msg: ServerError = {
+              code: error.statusText,
+              message: 'Session expired. Please login again',
+              errors: []
+            };
+
             this.alertService.error(msg);
+          } else {
+            if (error.error) {
+              const msg = error.error as ServerError;
+              this.alertService.error(msg);
+            }
           }
         }
         console.log(errorMsg);

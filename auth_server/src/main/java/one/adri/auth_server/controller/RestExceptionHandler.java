@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebExchangeBindException;
@@ -66,6 +67,11 @@ public class RestExceptionHandler implements WebExceptionHandler {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             var errors = new Errors("bad_credential", "Bad credentials");
             errors.add(exchange.getRequest().getPath().toString(), HttpStatus.UNAUTHORIZED.name(), "Invalid username or password");
+            return handleErrors(exchange, errors);
+        } else if (ex instanceof AccountStatusException) {
+            exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+            var errors = new Errors("account_exception", "Login error");
+            errors.add(exchange.getRequest().getPath().toString(), HttpStatus.UNAUTHORIZED.name(), ex.getMessage());
             return handleErrors(exchange, errors);
         }
         return Mono.error(ex);

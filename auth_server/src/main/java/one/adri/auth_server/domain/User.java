@@ -8,14 +8,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.Email;
 
-/**
- * @author hantsy
- */
 @Data
 @Builder
 @NoArgsConstructor
@@ -31,11 +28,30 @@ public class User {
     @JsonIgnore
     private String password;
 
+    private String firstname;
+
+    private String lastname;
+
+    private String alias;
+
     @Email
     private String email;
 
     @Builder.Default()
     private boolean active = true;
+
+    @Builder.Default()
+    private boolean looked = false;
+
+    private LocalDateTime passwordExpirationDate;
+
+    private LocalDateTime expirationDate;
+
+    private String activationKey;
+
+    private String resetKey;
+
+    private LocalDateTime resetDate;
 
     @Builder.Default()
     private List<String> authorities = new ArrayList<>();

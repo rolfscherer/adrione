@@ -30,6 +30,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return of(this.sessionStatus$.getValue().loggedIn);
   }
 
+  get username(): string | null {
+    return this.sessionStatus$.getValue().username;
+  }
+
   addlogoffHandler(source: OnLogoff): void {
     this.logoffHandler.push(source);
   }

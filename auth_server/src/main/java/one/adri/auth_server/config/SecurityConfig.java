@@ -6,6 +6,7 @@ import one.adri.auth_server.security.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -20,6 +21,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
 
 @Configuration
 public class SecurityConfig {
@@ -36,14 +39,25 @@ public class SecurityConfig {
         final String PATH_LOGIN = "/api/v1/auth/login";
 
         return http
+                .exceptionHandling()
+                .authenticationEntryPoint((swe, e) ->
+                        Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED))
+                ).accessDeniedHandler((swe, e) ->
+                        Mono.fromRunnable(() -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN))
+                ).and()
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .authenticationManager(reactiveAuthenticationManager)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(it -> it
+                        .pathMatchers(HttpMethod.GET, "/").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/index.html").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/static/**").permitAll()
                         .pathMatchers(HttpMethod.GET, PATH_PUBLIC).permitAll()
                         .pathMatchers(HttpMethod.POST, PATH_LOGIN).permitAll()
-                        .pathMatchers("/api/user/{user}/**").access(this::currentUserMatchesPath)
+                        .pathMatchers("/api/v1/user/{user}/**").access(this::currentUserMatchesPath)
                         .anyExchange().authenticated()
                 )
                 .addFilterAt(new JwtTokenAuthenticationFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
@@ -67,10 +81,10 @@ public class SecurityConfig {
                 .map(u -> User
                         .withUsername(u.getUsername()).password(u.getPassword())
                         .authorities(u.getAuthorities().toArray(new String[0]))
-                        .accountExpired(!u.isActive())
-                        .credentialsExpired(!u.isActive())
+                        .accountExpired(!(u.getExpirationDate() == null || u.getExpirationDate().isAfter(LocalDateTime.now())))
+                        .credentialsExpired(!(u.getPasswordExpirationDate() == null || u.getPasswordExpirationDate().isAfter(LocalDateTime.now())))
                         .disabled(!u.isActive())
-                        .accountLocked(!u.isActive())
+                        .accountLocked(u.isLooked())
                         .build()
                 );
     }

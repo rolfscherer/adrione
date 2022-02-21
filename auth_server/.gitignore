@@ -2,6 +2,7 @@ HELP.md
 target/
 /.mvn/
 /db/
+/src/main/resources/static/
 
 ### STS ###
 .apt_generated

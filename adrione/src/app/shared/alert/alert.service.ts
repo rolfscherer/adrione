@@ -31,7 +31,7 @@ export class AlertService {
   }
 
   error(message: ServerError, options?: any): void {
-    if (message.errors) {
+    if (message.errors && message.errors.length > 0) {
       this.alert(
         new Alert({
           ...options,
@@ -47,12 +47,12 @@ export class AlertService {
     } else {
       this.alert(
         new Alert({
-          ...options,
           type: AlertType.Error,
           title: 'Error',
-          message: message,
+          message: message.message,
           autoClose: false,
-          fade: false
+          fade: false,
+          ...options
         })
       );
     }
