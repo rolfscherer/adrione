@@ -15,4 +15,8 @@ export class ProfileService {
   getProfile(): Observable<Profile> {
     return this.httpClient.get<Profile>(this.url + this.authGuard.username);
   }
+
+  updateProfile(profile: Profile): Observable<Profile> {
+    return this.httpClient.put<Profile>(this.url + profile.username, profile);
+  }
 }

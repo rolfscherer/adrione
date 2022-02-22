@@ -30,8 +30,15 @@
                     </a>
                 </div>
 
-                <a href="#" mat-list-item>Link 2</a>
-                <a href="#" mat-list-item>Link 3</a>
+                <div class="menu-item">
+                    <a [routerLink]="'admin/user'" mat-button fxLayout="row"
+                       routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+                        <span class="mat-button-wrapper">
+                            <mat-icon class="menu-icon">user</mat-icon>
+                            <span class="menu-title">User</span>
+                        </span>
+                    </a>
+                </div>
             </mat-nav-list>
         </div>
     </mat-sidenav>

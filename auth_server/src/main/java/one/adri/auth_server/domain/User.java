@@ -54,6 +54,7 @@ public class User {
     private LocalDateTime resetDate;
 
     @Builder.Default()
+    @Transient
     private List<String> authorities = new ArrayList<>();
 
     @Version

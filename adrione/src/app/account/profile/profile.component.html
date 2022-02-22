@@ -1,35 +1,62 @@
 <div class="page-container">
     <form (ngSubmit)="onSubmit()" [formGroup]="form" novalidate>
-    <mat-card>
-        <mat-card-header class="bg-primary">
-            <mat-card-title style="width: 100%">Profile</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="w50">
-                        <input formControlName="username" matInput placeholder="Username">
-                    </mat-form-field>
-                    <mat-form-field class="w50">
-                        <input formControlName="alias" matInput placeholder="Alias">
-                    </mat-form-field>
+        <mat-card class="mat-card">
+            <mat-card-header class="bg-primary p-1">
+                <mat-card-title class="m-0"><h3>Profile</h3></mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="padding-top: 20px">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input formControlName="username" matInput placeholder="Username">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input formControlName="passwordExpDate" matInput
+                                   placeholder="Password expiration date">
+                        </mat-form-field>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="w50">
-                        <input formControlName="firstname" matInput placeholder="First name">
-                    </mat-form-field>
-                    <mat-form-field class="w50">
-                        <input formControlName="lastname" matInput placeholder="Last name">
-                    </mat-form-field>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input formControlName="firstname" matInput placeholder="First name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input formControlName="lastname" matInput placeholder="Last name">
+                        </mat-form-field>
+                    </div>
                 </div>
-            </div>
-        </mat-card-content>
-        <mat-card-actions>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input type="email" formControlName="email" matInput placeholder="E-Mail">
+                            <mat-error *ngIf="form.controls['email'].hasError('required')">
+                                E-Mail is <strong>required</strong>
+                            </mat-error>
+                            <mat-error *ngIf="form.controls['email'].hasError('email')">
+                                The field contains no <strong>valid</strong> E-Mail address.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="full-width">
+                            <input formControlName="alias" matInput placeholder="Alias">
+                        </mat-form-field>
+                    </div>
 
-        </mat-card-actions>
-    </mat-card>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary"
+                        [disabled]="!!form?.invalid || isSubmitting"
+                        (click)="onSubmit()">Save
+                </button>
+            </mat-card-actions>
+        </mat-card>
     </form>
 </div>

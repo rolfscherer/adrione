@@ -15,6 +15,7 @@
 .row {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .col {
@@ -23,18 +24,13 @@
 }
 
 .col:last-child {
-  margin-right: 0;
+  // margin-right: 0;
 }
 
 .page-container {
-  margin: 20px;
+  padding: 20px;
 }
 
 .full-width {
   width: 100%;
-}
-
-.w50 {
-  width: 50%;
-  min-width: 200px;
 }

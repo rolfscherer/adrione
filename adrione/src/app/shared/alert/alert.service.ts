@@ -17,9 +17,18 @@ export class AlertService {
     return this.subject.asObservable();
   }
 
-  // convenience methods
-  success(message: string, options?: any): void {
-    this.alert(new Alert({ ...options, type: AlertType.Success, message }));
+  success(title: string, message: string, options?: any): void {
+    this.alert(
+      new Alert({
+        type: AlertType.Success,
+        title: title,
+        message: message,
+        autoClose: true,
+        autoCloseTimeout: 3000,
+        fade: true,
+        ...options
+      })
+    );
   }
 
   info(message: string, options?: any): void {

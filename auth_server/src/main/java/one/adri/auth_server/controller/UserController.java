@@ -6,12 +6,11 @@ import one.adri.auth_server.repository.UserRepository;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.security.auth.login.AccountNotFoundException;
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -19,11 +18,34 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository users;
+    private final UserRepository userRepository;
 
     @GetMapping("/user/{username}")
-    public Mono<Profile> get(@PathVariable() String username) throws InterruptedException {
-        return this.users.findProfileByUsername(username);
+    public Mono<Profile> get(@PathVariable() String username) {
+        return this.userRepository.findProfileByUsername(username);
+    }
+
+    @PutMapping("/user/{username}")
+    public Mono<Profile> update(@Valid @RequestBody Profile profile, @PathVariable String username) {
+        return this.userRepository.findByUsername(username).
+                switchIfEmpty(Mono.error(new AccountNotFoundException("Current user account not found")))
+                .map(user -> {
+                    user.setFirstname(profile.getFirstname());
+                    user.setLastname(profile.getLastname());
+                    user.setEmail(profile.getEmail());
+                    user.setAlias(profile.getAlias());
+                    return user;
+                })
+                .flatMap(this.userRepository::save)
+                .map(u ->
+                        Profile.builder().id(u.getId()).username(u.getUsername())
+                                .alias(u.getAlias())
+                                .email(u.getEmail())
+                                .lastname(u.getLastname())
+                                .firstname(u.getFirstname())
+                                .passwordExpirationDate(u.getPasswordExpirationDate())
+                                .build()
+                );
     }
 
     @GetMapping("/user/me")

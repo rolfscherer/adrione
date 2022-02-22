@@ -6,7 +6,6 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { httpInterceptorProviders } from './intercepter';
-import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +18,7 @@ import { APP_BASE_HREF } from '@angular/common';
   ],
 
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/static' },
+    //{ provide: APP_BASE_HREF, useValue: '/app' },
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
