@@ -1,11 +1,17 @@
 package one.adri.auth_server.controller;
 
 import lombok.RequiredArgsConstructor;
+import one.adri.auth_server.domain.User;
 import one.adri.auth_server.model.Profile;
 import one.adri.auth_server.repository.UserRepository;
+import one.adri.auth_server.service.UserService;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -18,14 +24,17 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final UserService userService;
     private final UserRepository userRepository;
 
     @GetMapping("/user/{username}")
+    @Transactional(readOnly = true)
     public Mono<Profile> get(@PathVariable() String username) {
         return this.userRepository.findProfileByUsername(username);
     }
 
     @PutMapping("/user/{username}")
+    @Transactional
     public Mono<Profile> update(@Valid @RequestBody Profile profile, @PathVariable String username) {
         return this.userRepository.findByUsername(username).
                 switchIfEmpty(Mono.error(new AccountNotFoundException("Current user account not found")))
@@ -55,5 +64,9 @@ public class UserController {
                         "roles", AuthorityUtils.authorityListToSet(user.getAuthorities())
                 )
         );
+    }
+
+    public Mono<Page<User>> getAll(@RequestParam("page") int page, @RequestParam("size") int size){
+        return this.userService.getUsers(PageRequest.of(page, size));
     }
 }

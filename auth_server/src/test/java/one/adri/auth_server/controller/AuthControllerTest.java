@@ -22,7 +22,7 @@ class AuthControllerTest {
         var req = AuthenticationRequest.builder().username("admin").password("admin").build();
 
         var resp = this.client.post()
-                .uri("/api/auth/login")
+                .uri("/api/v1/auth/login")
                 .body(BodyInserters.fromValue(req))
                 .exchange()
                 .expectHeader().exists(HttpHeaders.AUTHORIZATION)

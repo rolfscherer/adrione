@@ -18,7 +18,12 @@ class AuthorityServiceTest {
     @Test
     @WithMockUser("admin")
     void createAuthority() {
-        var authority = Authority.builder().authority("ROLE_SYSTEM").description("Internal role for system activity").build();
+
+        final String ROLE = "ROLE_SYSTEM";
+
+        authorityService.deleteAuthority(ROLE).log().block();
+
+        var authority = Authority.builder().authority(ROLE).description("Internal role for system activity").build();
         var a = authorityService.createAuthority(authority)
                 .log().block();
 

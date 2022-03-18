@@ -18,4 +18,8 @@ public class AuthorityService {
         return authorityRepository.save(authority);
     }
 
+    public Mono<Integer> deleteAuthority(String authority) {
+        return authorityRepository.deleteByAuthority(authority);
+    }
+
 }

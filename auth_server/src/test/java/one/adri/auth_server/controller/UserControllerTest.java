@@ -28,7 +28,7 @@ class UserControllerTest {
         var authRequest = AuthenticationRequest.builder().username(USERNAME).password(USERNAME).build();
 
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:" + port + "/api")
+                .baseUrl("http://localhost:" + port + "/api/v1")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
@@ -56,7 +56,7 @@ class UserControllerTest {
         var authRequest = AuthenticationRequest.builder().username(USERNAME).password(USERNAME).build();
 
         WebClient webClient = WebClient.builder()
-                .baseUrl("http://localhost:" + port + "/api")
+                .baseUrl("http://localhost:" + port + "/api/v1")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
@@ -73,11 +73,14 @@ class UserControllerTest {
                             .uri("/user/user")
                             .header(HttpHeaders.AUTHORIZATION, "Bearer " + response.getToken())
                             .retrieve()
-                            .onStatus(HttpStatus.FORBIDDEN::equals, resp -> resp.bodyToMono(String.class).map(IllegalStateException::new))
+                            .onStatus(HttpStatus.FORBIDDEN::equals, resp -> Mono.just(resp.statusCode().getReasonPhrase()).map(IllegalStateException::new))
                             .bodyToMono(User.class)
+                            .log()
                             .block();
+
                 }
-        ).withMessageContaining("Access Denied");
+        ).withMessageContaining("Forbidden");
     }
 
 }
+

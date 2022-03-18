@@ -71,7 +71,6 @@ public class SecurityConfig {
         return authentication
                 .map(a -> context.getVariables().get("user").equals(a.getName()))
                 .map(AuthorizationDecision::new);
-
     }
 
     @Bean

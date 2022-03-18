@@ -8,7 +8,10 @@ import reactor.core.publisher.Mono;
 
 public interface AuthorityRepository extends ReactiveCrudRepository<Authority, Long> {
     Mono<Authority> findByAuthority(String authority);
+    Mono<Integer> deleteByAuthority(String authority);
 
     @Query("SELECT a.* FROM authority a JOIN user_authority u ON a.id = u.authority_id WHERE user_id = :userId")
     Flux<Authority> findByAuthoritiesBayUserId (long userId);
+
+
 }

@@ -6,9 +6,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Flux;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -76,4 +79,30 @@ class UserRepositoryTest {
 
     }
 
+    @Test
+    void findAllByActiveEquals() throws InterruptedException {
+
+        var list = new ArrayList<User>();
+        CountDownLatch latch = new CountDownLatch(1);
+        userRepository.findAllByActiveEquals(true, PageRequest.of(0, 20))
+                .doOnNext(list::add)
+                .doOnTerminate(latch::countDown).blockLast();
+        latch.await(1000, TimeUnit.MILLISECONDS);
+        assertThat(list).isNotEmpty();
+
+
+        var pageRequest = PageRequest.of(0, 20);
+        latch = new CountDownLatch(1);
+        var res = userRepository.findAllBy(pageRequest)
+                .collectList()
+                .doOnTerminate(latch::countDown)
+                .zipWith(userRepository.count())
+                .block();
+        latch.await(1000, TimeUnit.MILLISECONDS);
+        assertThat(res.getT1()).isNotEmpty();
+        assertThat(res.getT2()).isGreaterThan(0);
+
+        var page = new PageImpl<>(res.getT1(), pageRequest, res.getT2());
+        assertThat(page.getTotalElements()).isEqualTo(res.getT1().size());
+    }
 }
